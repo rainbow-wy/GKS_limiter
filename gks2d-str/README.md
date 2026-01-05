@@ -1,4 +1,3 @@
-会不断更新的！我的邮箱 xjiad@connect.ust.hk
 # gks2d-str
 这是一个气体动理学格式（Gas-Kinetic Scheme, GKS）的求解器，支持二维结构化网格模拟，目的是方便有需求的科研工作者入门之用。
 GKS是香港科技大学华人学者徐昆教授原创的针对可压缩流动的格式（推荐一篇集大成的文献是 K. Xu, 2001, JCP, A Gas-Kinetic BGK Scheme for the Navier–Stokes Equations and Its Connection with Artificial Dissipation and Godunov Method）

@@ -1,0 +1,3 @@
+C:/code/gks2d-str/code/build/CMakeFiles/main.dir
+C:/code/gks2d-str/code/build/CMakeFiles/edit_cache.dir
+C:/code/gks2d-str/code/build/CMakeFiles/rebuild_cache.dir

@@ -1,0 +1,68 @@
+[
+{
+  "directory": "C:/code/gks2d-str/code/build",
+  "command": "C:\\EdgeDownload\\x86_64-8.1.0-release-posix-seh-rt_v6-rev0\\mingw64\\bin\\g++.exe    -std=c++11 -fopenmp -g -o CMakeFiles\\main.dir\\accuracy_test.cpp.obj -c C:\\code\\gks2d-str\\code\\accuracy_test.cpp",
+  "file": "C:/code/gks2d-str/code/accuracy_test.cpp",
+  "output": "CMakeFiles/main.dir/accuracy_test.cpp.obj"
+},
+{
+  "directory": "C:/code/gks2d-str/code/build",
+  "command": "C:\\EdgeDownload\\x86_64-8.1.0-release-posix-seh-rt_v6-rev0\\mingw64\\bin\\g++.exe    -std=c++11 -fopenmp -g -o CMakeFiles\\main.dir\\boundary_layer.cpp.obj -c C:\\code\\gks2d-str\\code\\boundary_layer.cpp",
+  "file": "C:/code/gks2d-str/code/boundary_layer.cpp",
+  "output": "CMakeFiles/main.dir/boundary_layer.cpp.obj"
+},
+{
+  "directory": "C:/code/gks2d-str/code/build",
+  "command": "C:\\EdgeDownload\\x86_64-8.1.0-release-posix-seh-rt_v6-rev0\\mingw64\\bin\\g++.exe    -std=c++11 -fopenmp -g -o CMakeFiles\\main.dir\\cylinder.cpp.obj -c C:\\code\\gks2d-str\\code\\cylinder.cpp",
+  "file": "C:/code/gks2d-str/code/cylinder.cpp",
+  "output": "CMakeFiles/main.dir/cylinder.cpp.obj"
+},
+{
+  "directory": "C:/code/gks2d-str/code/build",
+  "command": "C:\\EdgeDownload\\x86_64-8.1.0-release-posix-seh-rt_v6-rev0\\mingw64\\bin\\g++.exe    -std=c++11 -fopenmp -g -o CMakeFiles\\main.dir\\function.cpp.obj -c C:\\code\\gks2d-str\\code\\function.cpp",
+  "file": "C:/code/gks2d-str/code/function.cpp",
+  "output": "CMakeFiles/main.dir/function.cpp.obj"
+},
+{
+  "directory": "C:/code/gks2d-str/code/build",
+  "command": "C:\\EdgeDownload\\x86_64-8.1.0-release-posix-seh-rt_v6-rev0\\mingw64\\bin\\g++.exe    -std=c++11 -fopenmp -g -o CMakeFiles\\main.dir\\fvm_gks1d.cpp.obj -c C:\\code\\gks2d-str\\code\\fvm_gks1d.cpp",
+  "file": "C:/code/gks2d-str/code/fvm_gks1d.cpp",
+  "output": "CMakeFiles/main.dir/fvm_gks1d.cpp.obj"
+},
+{
+  "directory": "C:/code/gks2d-str/code/build",
+  "command": "C:\\EdgeDownload\\x86_64-8.1.0-release-posix-seh-rt_v6-rev0\\mingw64\\bin\\g++.exe    -std=c++11 -fopenmp -g -o CMakeFiles\\main.dir\\fvm_gks2d.cpp.obj -c C:\\code\\gks2d-str\\code\\fvm_gks2d.cpp",
+  "file": "C:/code/gks2d-str/code/fvm_gks2d.cpp",
+  "output": "CMakeFiles/main.dir/fvm_gks2d.cpp.obj"
+},
+{
+  "directory": "C:/code/gks2d-str/code/build",
+  "command": "C:\\EdgeDownload\\x86_64-8.1.0-release-posix-seh-rt_v6-rev0\\mingw64\\bin\\g++.exe    -std=c++11 -fopenmp -g -o CMakeFiles\\main.dir\\gks_basic.cpp.obj -c C:\\code\\gks2d-str\\code\\gks_basic.cpp",
+  "file": "C:/code/gks2d-str/code/gks_basic.cpp",
+  "output": "CMakeFiles/main.dir/gks_basic.cpp.obj"
+},
+{
+  "directory": "C:/code/gks2d-str/code/build",
+  "command": "C:\\EdgeDownload\\x86_64-8.1.0-release-posix-seh-rt_v6-rev0\\mingw64\\bin\\g++.exe    -std=c++11 -fopenmp -g -o CMakeFiles\\main.dir\\main.cpp.obj -c C:\\code\\gks2d-str\\code\\main.cpp",
+  "file": "C:/code/gks2d-str/code/main.cpp",
+  "output": "CMakeFiles/main.dir/main.cpp.obj"
+},
+{
+  "directory": "C:/code/gks2d-str/code/build",
+  "command": "C:\\EdgeDownload\\x86_64-8.1.0-release-posix-seh-rt_v6-rev0\\mingw64\\bin\\g++.exe    -std=c++11 -fopenmp -g -o CMakeFiles\\main.dir\\mesh_read.cpp.obj -c C:\\code\\gks2d-str\\code\\mesh_read.cpp",
+  "file": "C:/code/gks2d-str/code/mesh_read.cpp",
+  "output": "CMakeFiles/main.dir/mesh_read.cpp.obj"
+},
+{
+  "directory": "C:/code/gks2d-str/code/build",
+  "command": "C:\\EdgeDownload\\x86_64-8.1.0-release-posix-seh-rt_v6-rev0\\mingw64\\bin\\g++.exe    -std=c++11 -fopenmp -g -o CMakeFiles\\main.dir\\output.cpp.obj -c C:\\code\\gks2d-str\\code\\output.cpp",
+  "file": "C:/code/gks2d-str/code/output.cpp",
+  "output": "CMakeFiles/main.dir/output.cpp.obj"
+},
+{
+  "directory": "C:/code/gks2d-str/code/build",
+  "command": "C:\\EdgeDownload\\x86_64-8.1.0-release-posix-seh-rt_v6-rev0\\mingw64\\bin\\g++.exe    -std=c++11 -fopenmp -g -o CMakeFiles\\main.dir\\riemann_problem.cpp.obj -c C:\\code\\gks2d-str\\code\\riemann_problem.cpp",
+  "file": "C:/code/gks2d-str/code/riemann_problem.cpp",
+  "output": "CMakeFiles/main.dir/riemann_problem.cpp.obj"
+}
+]

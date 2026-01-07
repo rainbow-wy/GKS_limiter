@@ -250,9 +250,9 @@ void riemann_problem_2d()
 	//end the allocate memory part
 
 	block.left = 0.0;
-	block.right = 1.0;
+	block.right = 2.0;
 	block.down = 0.0;
-	block.up = 1.0;
+	block.up = 2.0;
 	block.dx = (block.right - block.left) / block.nodex;
 	block.dy = (block.up - block.down) / block.nodey;
 	block.overdx = 1 / block.dx;
@@ -288,7 +288,8 @@ void riemann_problem_2d()
 	//Initial zone4{ 0.125, 0, 0, 0.1 };
 
 	////RM 3 T=0.8 with x,y=0.5
-	double tstop[] = { 0.4, 0.45, 0.5, 0.55,0.6 };
+	//double tstop[] = { 0.4, 0.45, 0.5, 0.55,0.6 };
+	double tstop[] = { 0.6 };
 	double p0 = 1.0; // this p0 is for adjust the speed of shear layer
 	double zone1[]={ 1, -0.75, 0.5, p0 };
 	double zone2[]={ 3.0, -0.75, -0.5, p0 };
@@ -382,10 +383,10 @@ void riemann_problem_2d()
 			{
 				output2d(fluids, block);
 			}
-			if (block.step % 100 == 0)
-			{
-				output2d(fluids, block);
-			}
+			//if (block.step % 100 == 0)
+			//{
+			//	output2d(fluids, block);
+			//}
 			if (fluids[block.nx / 2 * (block.ny) + block.ny / 2].convar[0] != fluids[block.nx / 2 * (block.ny) + block.ny / 2].convar[0])
 			{
 				cout << "the program blows up!" << endl;

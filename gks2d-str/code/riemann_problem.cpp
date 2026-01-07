@@ -212,8 +212,8 @@ void riemann_problem_2d()
 	reconstruction_variable = characteristic;
 	wenotype = wenoz;
 
-	cellreconstruction_2D_normal = Vanleer_normal;
-	cellreconstruction_2D_tangent = Vanleer_tangent;
+	cellreconstruction_2D_normal = WENO5_normal;
+	cellreconstruction_2D_tangent = WENO5_tangent;
 	g0reconstruction_2D_normal = Center_do_nothing_normal;
 	g0reconstruction_2D_tangent = Center_all_collision_multi;
 
@@ -230,7 +230,7 @@ void riemann_problem_2d()
 
 
 	//time coe list must be 2d
-	timecoe_list_2d = S1O2_2D;
+	timecoe_list_2d = S2O4_2D;
 	Initial_stages(block);
 
 
@@ -288,7 +288,6 @@ void riemann_problem_2d()
 	//Initial zone4{ 0.125, 0, 0, 0.1 };
 
 	////RM 3 T=0.8 with x,y=0.5
-	//double tstop[] = { 0.4, 0.45, 0.5, 0.55,0.6 };
 	double tstop[] = { 0.6 };
 	double p0 = 1.0; // this p0 is for adjust the speed of shear layer
 	double zone1[]={ 1, -0.75, 0.5, p0 };
@@ -318,8 +317,8 @@ void riemann_problem_2d()
 	block.step = 0; //the current step
 	int tstop_dim = sizeof(tstop) / sizeof(double);
 
-	//int inputstep = 1;
-	int inputstep = 1000000;//input a certain step,
+	int inputstep = 1000000;
+	//int inputstep = 1;//input a certain step,
 					  //initialize inputstep=1, to avoid a 0 result
 
 	//在若干个模拟时间输出

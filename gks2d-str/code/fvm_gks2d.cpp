@@ -6,42 +6,6 @@ double* gauss_loc = new double[gausspoint]; //initilization
 double* gauss_weight = new double[gausspoint]; //initilization
 GKS2d_type gks2dsolver = kfvs1st_2d; //initilization
 
-double Positivity_Preserving_Limiter(double* w_target, double* w_avg)
-{
-	double epsilon = 1.0e-13;
-	double theta_rho = 1.0;
-
-	if (w_target[0] < epsilon)
-	{
-		theta_rho = (w_avg[0] - epsilon) / (w_avg[0] - w_target[0]);
-	}
-
-	double w_mod[4];
-	for (int i = 0; i < 4; i++)
-	{
-		w_mod[i] = w_avg[i] + theta_rho * (w_target[i] - w_avg[i]);
-	}
-
-	double p_avg = w_avg[3] - 0.5 * (w_avg[1] * w_avg[1] + w_avg[2] * w_avg[2]) / w_avg[0];
-	double p_mod = w_mod[3] - 0.5 * (w_mod[1] * w_mod[1] + w_mod[2] * w_mod[2]) / w_mod[0];
-
-	double theta_p = 1.0;
-	if (p_mod < epsilon)
-	{
-		theta_p = (p_avg - epsilon) / (p_avg - p_mod);
-	}
-
-	double theta_final = theta_rho * theta_p;
-	if (theta_final > 1.0) theta_final = 1.0;
-	if (theta_final < 0.0) theta_final = 0.0;
-
-	for (int i = 0; i < 4; i++)
-	{
-		w_target[i] = w_avg[i] + theta_final * (w_target[i] - w_avg[i]);
-	}
-	return theta_final;
-}
-
 Reconstruction_within_Cell_2D_normal cellreconstruction_2D_normal = Vanleer_normal; //initilization
 Reconstruction_within_Cell_2D_tangent cellreconstruction_2D_tangent = Vanleer_tangent; //initilization
 Reconstruction_forG0_2D_normal g0reconstruction_2D_normal = Center_do_nothing_normal; //initilization
@@ -723,22 +687,32 @@ void Vanleer(Point2d& left, Point2d& right, double* wn1, double* w, double* wp1,
 	}
 
 	//if lambda <0, then reduce to the first order
-	// Positivity Preserving Limiting
-	double theta_l = Positivity_Preserving_Limiter(left.convar, w);
-	if (theta_l < 1.0)
+	Check_Order_Reduce_by_Lambda_2D(left.is_reduce_order, left.convar);
+	Check_Order_Reduce_by_Lambda_2D(right.is_reduce_order, right.convar);
+
+	if (left.is_reduce_order == true)
 	{
+		if (is_reduce_order_warning == true)
+		{
+			cout << "order reduce on left interface x= " << left.x << " y= " << left.y << endl;
+		}
 		for (int m = 0; m < 4; m++)
 		{
-			left.der1x[m] *= theta_l;
+			left.convar[m] = wn1[m];
 		}
+		left.is_reduce_order = true;
 	}
-	double theta_r = Positivity_Preserving_Limiter(right.convar, w);
-	if (theta_r < 1.0)
+	if (right.is_reduce_order == true)
 	{
+		if (is_reduce_order_warning == true)
+		{
+			cout << "order reduce on right interface x= " << right.x << " y= " << right.y << endl;
+		}
 		for (int m = 0; m < 4; m++)
 		{
-			right.der1x[m] *= theta_r;
+			right.convar[m] = wp1[m];
 		}
+		right.is_reduce_order = true;
 	}
 
 }
@@ -974,22 +948,32 @@ void Vanleer_non_uniform(Point2d& left, Point2d& right, double* normal_l, double
 	}
 
 	//if lambda <0, then reduce to the first order
-	// Positivity Preserving Limiting
-	double theta_l = Positivity_Preserving_Limiter(left.convar, w_l);
-	if (theta_l < 1.0)
+	Check_Order_Reduce_by_Lambda_2D(left.is_reduce_order, left.convar);
+	Check_Order_Reduce_by_Lambda_2D(right.is_reduce_order, right.convar);
+
+	if (left.is_reduce_order == true)
 	{
+		if (is_reduce_order_warning == true)
+		{
+			cout << "order reduce on left interface x= " << left.x << " y= " << left.y << endl;
+		}
 		for (int m = 0; m < 4; m++)
 		{
-			left.der1x[m] *= theta_l;
+			left.convar[m] = w_l[m];
 		}
+		left.is_reduce_order = true;
 	}
-	double theta_r = Positivity_Preserving_Limiter(right.convar, w_r);
-	if (theta_r < 1.0)
+	if (right.is_reduce_order == true)
 	{
+		if (is_reduce_order_warning == true)
+		{
+			cout << "order reduce on right interface x= " << right.x << " y= " << right.y << endl;
+		}
 		for (int m = 0; m < 4; m++)
 		{
-			right.der1x[m] *= theta_r;
+			right.convar[m] = w_r[m];
 		}
+		right.is_reduce_order = true;
 	}
 
 }
@@ -1172,20 +1156,19 @@ void WENO(Point2d& left, Point2d& right, double* wn2, double* wn1, double* w, do
 		Char_to_convar(right.der1x, base_right, der1);
 	}
 
-	double theta_l = Positivity_Preserving_Limiter(left.convar, w);
-	if (theta_l < 1.0)
+	Check_Order_Reduce_by_Lambda_2D(right.is_reduce_order, right.convar);
+	Check_Order_Reduce_by_Lambda_2D(left.is_reduce_order, left.convar);
+
+	if (left.is_reduce_order == true || right.is_reduce_order == true)
 	{
+		if (is_reduce_order_warning == true)
+			cout << " WENO5-cell-splitting order reduce" << endl;
 		for (int m = 0; m < 4; m++)
 		{
-			left.der1x[m] *= theta_l;
-		}
-	}
-	double theta_r = Positivity_Preserving_Limiter(right.convar, w);
-	if (theta_r < 1.0)
-	{
-		for (int m = 0; m < 4; m++)
-		{
-			right.der1x[m] *= theta_r;
+			right.convar[m] = w[m];
+			left.convar[m] = w[m];
+			right.der1x[m] = 0.0;
+			left.der1x[m] = 0.0;
 		}
 	}
 }
@@ -1535,20 +1518,19 @@ void WENO5_AO(Point2d& left, Point2d& right, double* wn2, double* wn1, double* w
 
 	}
 
-	double theta_r = Positivity_Preserving_Limiter(right.convar, w);
-	if (theta_r < 1.0)
+	Check_Order_Reduce_by_Lambda_2D(right.is_reduce_order, right.convar);
+	Check_Order_Reduce_by_Lambda_2D(left.is_reduce_order, left.convar);
+
+	if (left.is_reduce_order == true || right.is_reduce_order == true)
 	{
+		if (is_reduce_order_warning == true)
+			cout << " WENO5-cell-splitting order reduce" << endl;
 		for (int m = 0; m < 4; m++)
 		{
-			right.der1x[m] *= theta_r;
-		}
-	}
-	double theta_l = Positivity_Preserving_Limiter(left.convar, w);
-	if (theta_l < 1.0)
-	{
-		for (int m = 0; m < 4; m++)
-		{
-			left.der1x[m] *= theta_l;
+			right.convar[m] = w[m];
+			left.convar[m] = w[m];
+			right.der1x[m] = 0.0;
+			left.der1x[m] = 0.0;
 		}
 	}
 
@@ -1674,13 +1656,16 @@ void Vanleer(Point2d& gauss, Point2d& wn1, Point2d& w0, Point2d& wp1, double h)
 		gauss.der1x[var] = coe[0] + gauss.x * coe[1];
 	}
 
-	double theta = Positivity_Preserving_Limiter(gauss.convar, w0.convar);
-	if (theta < 1.0)
+	Check_Order_Reduce_by_Lambda_2D(gauss.is_reduce_order, gauss.convar);
+	//if lambda <0, then reduce to the first order
+	if (gauss.is_reduce_order == true)
 	{
+
 		for (int m = 0; m < 4; ++m)
 		{
-			gauss.der1x[m] *= theta;
-			gauss.der1y[m] *= theta;
+			gauss.convar[m] = w0.convar[m];
+			gauss.der1x[m] = w0.der1x[m];
+			gauss.der1y[m] = 0.0;
 		}
 	}
 }
@@ -2120,13 +2105,14 @@ void WENO5_tangential(Recon2d* re, Recon2d& wn2, Recon2d& wn1, Recon2d& w0, Reco
 
 	for (int num_gauss = 0; num_gauss < gausspoint; num_gauss++)
 	{
-		double theta = Positivity_Preserving_Limiter(re[num_gauss].left.convar, w0.left.convar);
-		if (theta < 1.0)
+		Check_Order_Reduce_by_Lambda_2D(re[num_gauss].left.is_reduce_order, re[num_gauss].left.convar);
+		if (re[num_gauss].left.is_reduce_order == true)
 		{
 			for (int var = 0; var < 4; var++)
 			{
-				re[num_gauss].left.der1x[var] *= theta;
-				re[num_gauss].left.der1y[var] *= theta;
+				re[num_gauss].left.convar[var] = w0.left.convar[var];
+				re[num_gauss].left.der1x[var] = w0.left.der1x[var];
+				re[num_gauss].left.der1y[var] = 0.0;
 			}
 		}
 	}
@@ -2158,13 +2144,14 @@ void WENO5_tangential(Recon2d* re, Recon2d& wn2, Recon2d& wn1, Recon2d& w0, Reco
 
 	for (int num_gauss = 0; num_gauss < gausspoint; num_gauss++)
 	{
-		double theta = Positivity_Preserving_Limiter(re[num_gauss].right.convar, w0.right.convar);
-		if (theta < 1.0)
+		Check_Order_Reduce_by_Lambda_2D(re[num_gauss].right.is_reduce_order, re[num_gauss].right.convar);
+		if (re[num_gauss].right.is_reduce_order == true)
 		{
 			for (int var = 0; var < 4; var++)
 			{
-				re[num_gauss].right.der1x[var] *= theta;
-				re[num_gauss].right.der1y[var] *= theta;
+				re[num_gauss].right.convar[var] = w0.right.convar[var];
+				re[num_gauss].right.der1x[var] = w0.right.der1x[var];
+				re[num_gauss].right.der1y[var] = 0.0;
 			}
 		}
 	}
@@ -2364,26 +2351,30 @@ void WENO5_AO_tangential(Recon2d* re, Recon2d& wn2, Recon2d& wn1, Recon2d& w0, R
 
 	for (int num_gauss = 0; num_gauss < gausspoint; num_gauss++)
 	{
-		double theta = Positivity_Preserving_Limiter(re[num_gauss].left.convar, w0.left.convar);
-		if (theta < 1.0)
+		Check_Order_Reduce_by_Lambda_2D(re[num_gauss].left.is_reduce_order, re[num_gauss].left.convar);
+		if (re[num_gauss].left.is_reduce_order == true)
 		{
+
 			for (int var = 0; var < 4; var++)
 			{
-				re[num_gauss].left.der1x[var] *= theta;
-				re[num_gauss].left.der1y[var] *= theta;
+				re[num_gauss].left.convar[var] = w0.left.convar[var];
+				re[num_gauss].left.der1x[var] = w0.left.der1x[var];
+				re[num_gauss].left.der1y[var] = 0.0;
 			}
 		}
 	}
 
 	for (int num_gauss = 0; num_gauss < gausspoint; num_gauss++)
 	{
-		double theta = Positivity_Preserving_Limiter(re[num_gauss].right.convar, w0.right.convar);
-		if (theta < 1.0)
+		Check_Order_Reduce_by_Lambda_2D(re[num_gauss].right.is_reduce_order, re[num_gauss].right.convar);
+		if (re[num_gauss].right.is_reduce_order == true)
 		{
+
 			for (int var = 0; var < 4; var++)
 			{
-				re[num_gauss].right.der1x[var] *= theta;
-				re[num_gauss].right.der1y[var] *= theta;
+				re[num_gauss].right.convar[var] = w0.right.convar[var];
+				re[num_gauss].right.der1x[var] = w0.right.der1x[var];
+				re[num_gauss].right.der1y[var] = 0.0;
 			}
 		}
 	}

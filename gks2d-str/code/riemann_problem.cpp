@@ -318,7 +318,8 @@ void riemann_problem_2d()
 	block.step = 0; //the current step
 	int tstop_dim = sizeof(tstop) / sizeof(double);
 
-	int inputstep = 1;//input a certain step,
+	//int inputstep = 1;
+	int inputstep = 1000000;//input a certain step,
 					  //initialize inputstep=1, to avoid a 0 result
 
 	//在若干个模拟时间输出

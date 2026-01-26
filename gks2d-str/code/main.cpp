@@ -20,6 +20,7 @@
 #include"boundary_layer.h"
 #include"cylinder.h"
 #include"riemann_problem.h"
+#include "riemann_problem_subcell_1d.h"
 //end
 
 using namespace std; //默认std的命名规则
@@ -42,9 +43,10 @@ int main()
 	//accuracy_sinwave_1d(); //一维精度测试，通过周期线性的正弦波传播算例，测试格式在光滑（smooth flow）无粘工况下的精度
 	//riemann_problem_1d();  //一维黎曼问题测试，测试格式对于可压缩间断问题的鲁棒性和分辨率
     //accuracy_sinwave_2d(); //二维精度测试，通过二维周期线性的正弦波传播算例，测试格式在光滑（smooth flow）无粘工况下的精度
-	riemann_problem_2d();  //二维黎曼问题测试，测试格式对于多维可压缩间断问题的鲁棒性和分辨率
+	//riemann_problem_2d();  //二维黎曼问题测试，测试格式对于多维可压缩间断问题的鲁棒性和分辨率
 	//boundary_layer();      //二维边界层问题测试，测试格式对于光滑（smooth flow）粘性边界的分辨率，非均匀直角网格
 	//cylinder();              //二维超音速圆柱绕流问题测试，测试格式对于间断问题和非均匀网格的鲁棒性
+	riemann_problem_subcell_1d();// 子单元GKS1D求解器
 	
     return 0;
 }
